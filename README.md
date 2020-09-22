@@ -55,7 +55,7 @@ systemctl enable ether1node && systemctl start ether1nod
 
 nano /etc/nginx/sites-enabled/default
 
-# Use CRTL+K to clear out the files contents & replace with the below:
+# Use CRTL+K to clear out the files contents & replace with the below - Replace RPC_URL_HERE with your rpc url for example: rpc.ether1.org
 
 server {
 server_name RPC_URL_HERE;
