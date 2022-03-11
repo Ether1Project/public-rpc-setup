@@ -14,12 +14,12 @@
 
     nano ~/.profile
 
-# Add the lines below to the bottom of the file
+#### Add the lines below to the bottom of the file
     export GOROOT=/usr/local/go
     export GOPATH=$ROOT
     export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
-# Exit nano with CRTL+X (Make sure you save)
+#### Exit nano with CRTL+X (Make sure you save)
 
     source ~/.profile
 
@@ -74,9 +74,9 @@ sudo apt install snapd
 
 sudo snap install --classic certbot
 
-# Read instructions from the next command carefully
+#### Read instructions from the next command carefully
 sudo certbot --nginx  
 
-# Test Automatic SSL Cert Renewal
+#### Test Automatic SSL Cert Renewal
 sudo certbot renew --dry-run
 ```
