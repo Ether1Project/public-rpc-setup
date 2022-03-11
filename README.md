@@ -17,6 +17,7 @@
     nano ~/.profile
 
 #### Add the lines below to the bottom of ~/.profile
+
     export GOROOT=/usr/local/go
     export GOPATH=$ROOT
     export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
