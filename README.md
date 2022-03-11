@@ -1,6 +1,6 @@
-# public-rpc-setup - updated march 11 2022
+#### public-rpc-setup - updated march 11 2022
 
-### This guide will show you how to setup a public rpc node for Etho-Protocol (ETHO) previously branded Ether-1
+#### This guide will show you how to setup a public rpc node for Etho-Protocol (ETHO) previously branded Ether-1
 
 #### Setting Up the Server & Building geth
 
@@ -28,14 +28,14 @@ git clone https://github.com/Ether1Project/Ether1 && cd Ether1 && make && cd
 
 ```
 
-### Installing nginx & Setting up the services
+#### Installing nginx & Setting up the services
 
 ......```bash 
 ......sudo apt-get install nginx 
 
 nano /etc/systemd/system/geth-etho-rpc.service
 
-# Copy and paste the following into the file - remember to replace <name> with your node name
+#### Copy and paste the following into the file - remember to replace <name> with your node name
 
 [Unit]
 Description=Geth for public ETHO RPC
@@ -48,13 +48,13 @@ User=<your-user-name>
 [Install]
 WantedBy=multi-user.target
 
-# Exit nano - save your changes!
+#### Exit nano - save your changes!
 
 systemctl enable geth-etho-rpc && systemctl start geth-etho-rpc
 
 nano /etc/nginx/sites-enabled/default
 
-# Use CRTL+K to clear out the files contents & replace with the below - Replace RPC_URL_HERE with your rpc url for example: rpc.ether1.org
+#### Use CRTL+K to clear out the files contents & replace with the below - Replace RPC_URL_HERE with your rpc url for example: rpc.ether1.org
 
 server {
 server_name RPC_URL_HERE;
@@ -65,7 +65,7 @@ server_name RPC_URL_HERE;
  }
 }
 
-# Exit nano - save your changes!
+#### Exit nano - save your changes!
 
 systemctl restart nginx
 ```
