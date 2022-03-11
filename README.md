@@ -4,16 +4,15 @@
 
 #### Setting Up the Server & Building geth
 
-```bash
-apt-get update
-apt-get upgrade -y
-apt-get install build-essential nano git make screen unzip curl nginx pkg-config tcl -y
+ apt-get update
+ apt-get upgrade -y
+ apt-get install build-essential nano git make screen unzip curl nginx pkg-config tcl -y
 
-wget https://storage.googleapis.com/golang/go1.16.9.linux-amd64.tar.gz
-sudo tar -xvf go1.16.9.linux-amd64.tar.gz
-sudo mv go /usr/local
+ wget https://storage.googleapis.com/golang/go1.16.9.linux-amd64.tar.gz
+ sudo tar -xvf go1.16.9.linux-amd64.tar.gz
+ sudo mv go /usr/local
 
-nano ~/.profile
+ nano ~/.profile
 
 # Add the lines below to the bottom of the file
 export GOROOT=/usr/local/go
