@@ -24,10 +24,10 @@
 #### Exit nano with CRTL+X (Make sure you save)
 
     source ~/.profile
+    
+#### Download and install ***LATEST*** version of geth    
 
     git clone https://github.com/Ether1Project/Ether1 && cd Ether1 && make && cd build/bin/ && sudo mv geth /usr/local/bin/
-
-```
 
 #### Setting up etho-geth-rpc.service 
 
