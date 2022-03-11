@@ -60,7 +60,7 @@
 
 #### Setup for nginx
 
-    nano /etc/nginx/sites-enabled/default
+    sudo nano /etc/nginx/sites-enabled/default
 
 #### Use CRTL+K to clear out the files contents & replace with the below - Replace RPC_URL_HERE with your rpc url for example: rpc.etho-protocol.ca
 
@@ -75,20 +75,18 @@
 
 #### Exit nano - save your changes!
 
-    systemctl restart nginx
+    sudo systemctl restart nginx
 
 
 #### Enable SSL
 
-```bash
+    sudo apt install snapd
 
-sudo apt install snapd
-
-sudo snap install --classic certbot
+    sudo snap install --classic certbot
 
 #### Read instructions from the next command carefully
-sudo certbot --nginx  
+    sudo certbot --nginx  
 
 #### Test Automatic SSL Cert Renewal
-sudo certbot renew --dry-run
+    sudo certbot renew --dry-run
 ```
