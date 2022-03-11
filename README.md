@@ -60,23 +60,23 @@
 
 #### Setup for nginx
 
-nano /etc/nginx/sites-enabled/default
+    nano /etc/nginx/sites-enabled/default
 
 #### Use CRTL+K to clear out the files contents & replace with the below - Replace RPC_URL_HERE with your rpc url for example: rpc.etho-protocol.ca
 
-server {
-server_name RPC_URL_HERE;
+    server {
+    server_name RPC_URL_HERE;
 
- location / {
-      proxy_pass http://localhost:8545/;
-      proxy_set_header Host $host;
- }
-}
+     location / {
+          proxy_pass http://localhost:8545/;
+          proxy_set_header Host $host;
+     }
+    }
 
 #### Exit nano - save your changes!
 
-systemctl restart nginx
-```
+    systemctl restart nginx
+
 
 #### Enable SSL
 
