@@ -1,16 +1,16 @@
-# public-rpc-setup
+# public-rpc-setup - updated march 11 2022
 
-### This guide will show you how to setup a public rpc node for Ether-1
+### This guide will show you how to setup a public rpc node for Etho-Protocol (ETHO) previously branded Ether-1
 
 #### Setting Up the Server & Building geth
 
 ```bash
 apt-get update
 apt-get upgrade -y
-apt-get install build-essential nano git
+apt-get install build-essential nano git make screen unzip curl nginx pkg-config tcl -y
 
-wget https://golang.org/dl/go1.15.2.linux-amd64.tar.gz
-sudo tar -xvf go1.15.2.linux-amd64.tar.gz
+wget https://storage.googleapis.com/golang/go1.16.9.linux-amd64.tar.gz
+sudo tar -xvf go1.16.9.linux-amd64.tar.gz
 sudo mv go /usr/local
 
 nano ~/.profile
@@ -30,28 +30,27 @@ git clone https://github.com/Ether1Project/Ether1 && cd Ether1 && make && cd
 
 ### Installing nginx & Setting up the services
 
-```bash 
-sudo apt-get install nginx 
+......```bash 
+......sudo apt-get install nginx 
 
-nano /etc/systemd/system/ether1node.service
+nano /etc/systemd/system/geth-etho-rpc.service
 
 # Copy and paste the following into the file - remember to replace <name> with your node name
 
 [Unit]
-Description=RPC Node
-After=network.target
+Description=Geth for public ETHO RPC
+After=network-online.target
+
 [Service]
-User=root
-Group=root
-Type=simple
-Restart=always
-ExecStart=/root/Ether1/build/bin/geth --cache=512 --rpcvhosts="*" --rpc --rpcport "8545" --rpcaddr "127.0.0.1" --rpccorsdomain "*" --nat "any" --rpcapi "eth,web3,personal,net" --syncmode "full" -ethstats "<name>:ether1stats@stats.ether1.org"
+ExecStart=/usr/local/bin/geth --cache 1024 --http.vhosts "*" --http --http.port 8545 --http.addr 127.0.0.1 --httpcorsdomain "*" --nat "any" --http.api "eth,web3,personal,net,network,debug,txpool" --syncmode "fast" --etherbase <your-address> --mine --extradata "<your-pool>"
+User=<your-user-name>
+
 [Install]
-WantedBy=default.target
+WantedBy=multi-user.target
 
 # Exit nano - save your changes!
 
-systemctl enable ether1node && systemctl start ether1nod
+systemctl enable geth-etho-rpc && systemctl start geth-etho-rpc
 
 nano /etc/nginx/sites-enabled/default
 
