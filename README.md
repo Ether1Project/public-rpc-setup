@@ -1,4 +1,4 @@
-#### public-rpc-setup - updated march 11 2022
+#### public-rpc-setup - updated march 11 2022 (current with Geth/v2.0.0-EthoProtocol--Phoenix)
 
 #### This guide will show you how to setup a public rpc node for Etho-Protocol (ETHO) previously branded Ether-1
 
