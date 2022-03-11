@@ -49,11 +49,20 @@
 
 #### Exit nano - save your changes!
 
-systemctl enable geth-etho-rpc && systemctl start geth-etho-rpc
+#### These are the available systemctl commands - you will want to do the first three commands to get the service up and confirm operation
+
+    sudo systemctl enable geth-etho-rpc   <-- enables geth-etho-rpc.service
+    sudo systemctl start geth-etho-rpc    <-- starts geth-etho-rpc.service
+    sudo systemctl status geth-etho-rpc   <-- shows status of geth-etho-rpc.service
+    sudo systemctl stop geth-etho-rpc     <-- stops geth-etho-rpc.service
+    
+    journalctl -f -u geth-etho-rpc        <-- this is similar to systemctl status but gives much more information.  also very useful
+
+#### Setup for nginx
 
 nano /etc/nginx/sites-enabled/default
 
-#### Use CRTL+K to clear out the files contents & replace with the below - Replace RPC_URL_HERE with your rpc url for example: rpc.ether1.org
+#### Use CRTL+K to clear out the files contents & replace with the below - Replace RPC_URL_HERE with your rpc url for example: rpc.etho-protocol.ca
 
 server {
 server_name RPC_URL_HERE;
