@@ -34,7 +34,7 @@
 
     sudo nano /etc/systemd/system/geth-etho-rpc.service
 
-#### Copy and paste the following into the file - remember to replace <name> with your node name, and <your-user-name> with the user account you wish to run the node under
+#### Copy and paste the following into the file - remember to replace '<name>' with your node name, and <your-user-name> with the user account you wish to run the node under
 
     [Unit]
     Description=Geth for public ETHO RPC
