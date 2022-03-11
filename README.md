@@ -2,11 +2,13 @@
 
 #### This guide will show you how to setup a public rpc node for Etho-Protocol (ETHO) previously branded Ether-1
 
-#### Setting Up the Server & Building geth
+#### Setting Up the Server
 
     apt-get update
     apt-get upgrade -y
     apt-get install build-essential nano git make screen unzip curl nginx pkg-config tcl -y
+
+#### Install Go
 
     wget https://storage.googleapis.com/golang/go1.16.9.linux-amd64.tar.gz
     sudo tar -xvf go1.16.9.linux-amd64.tar.gz
@@ -23,22 +25,22 @@
 
     source ~/.profile
 
-    git clone https://github.com/Ether1Project/Ether1 && cd Ether1 && make && cd
+    git clone https://github.com/Ether1Project/Ether1 && cd Ether1 && make && cd build/bin/ && sudo mv geth /usr/local/bin/
 
 ```
 
-#### Setting up nginx service 
+#### Setting up etho-geth-rpc.service 
 
-    nano /etc/systemd/system/geth-etho-rpc.service
+    sudo nano /etc/systemd/system/geth-etho-rpc.service
 
-#### Copy and paste the following into the file - remember to replace <name> with your node name
+#### Copy and paste the following into the file - remember to replace <name> with your node name, and <your-user-name> with the user account you wish to run the node under
 
     [Unit]
     Description=Geth for public ETHO RPC
     After=network-online.target
 
     [Service]
-    ExecStart=/usr/local/bin/geth --cache 1024 --http.vhosts "*" --http --http.port 8545 --http.addr 127.0.0.1 --httpcorsdomain "*" --nat "any" --http.api "eth,web3,personal,net,network,debug,txpool" --syncmode "fast" --etherbase <your-address> --mine --extradata "<your-pool>"
+    ExecStart=/usr/local/bin/geth --cache 1024 --http.vhosts "*" --http --http.port 8545 --http.addr 127.0.0.1 --http.corsdomain "*" --nat "any" --http.api "eth,web3,personal,net,network,debug,txpool" --syncmode "fast" --identity "<name>" --ethstats "<name>:ether1stats@stats.ethoprotocol.com"
     User=<your-user-name>
 
     [Install]
