@@ -1,87 +1,92 @@
-# public-rpc-setup
+#### public-rpc-setup - updated march 11 2022 (current with Geth/v2.0.0-EthoProtocol--Phoenix)
 
-### This guide will show you how to setup a public rpc node for Ether-1
+#### This guide will show you how to setup a public rpc node for Etho-Protocol (ETHO) previously branded Ether-1
 
-#### Setting Up the Server & Building geth
+#### Setting Up the Server
 
-```bash
-apt-get update
-apt-get upgrade -y
-apt-get install build-essential nano git
+    apt-get update
+    apt-get upgrade -y
+    apt-get install build-essential nano git make screen unzip curl nginx pkg-config tcl -y
 
-wget https://golang.org/dl/go1.15.2.linux-amd64.tar.gz
-sudo tar -xvf go1.15.2.linux-amd64.tar.gz
-sudo mv go /usr/local
+#### Install Go
 
-nano ~/.profile
+    wget https://storage.googleapis.com/golang/go1.16.9.linux-amd64.tar.gz
+    sudo tar -xvf go1.16.9.linux-amd64.tar.gz
+    sudo mv go /usr/local
 
-# Add the lines below to the bottom of the file
-export GOROOT=/usr/local/go
-export GOPATH=$ROOT
-export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+    nano ~/.profile
 
-# Exit nano with CRTL+X (Make sure you save)
+#### Add the lines below to the bottom of ~/.profile
 
-source ~/.profile
+    export GOROOT=/usr/local/go
+    export GOPATH=$ROOT
+    export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
-git clone https://github.com/Ether1Project/Ether1 && cd Ether1 && make && cd
+#### Exit nano with CRTL+X (Make sure you save)
 
-```
+    source ~/.profile
+    
+#### Download and install ***LATEST*** version of geth    
 
-### Installing nginx & Setting up the services
+    git clone https://github.com/Ether1Project/Ether1 && cd Ether1 && make && cd build/bin/ && sudo mv geth /usr/local/bin/
 
-```bash 
-sudo apt-get install nginx 
+#### Setting up etho-geth-rpc.service 
 
-nano /etc/systemd/system/ether1node.service
+    sudo nano /etc/systemd/system/geth-etho-rpc.service
 
-# Copy and paste the following into the file - remember to replace <name> with your node name
+#### Copy and paste the following into the file - remember to replace "name" (2x) with your node name, and "your-user-name" with the user account you wish to run the node under
 
-[Unit]
-Description=RPC Node
-After=network.target
-[Service]
-User=root
-Group=root
-Type=simple
-Restart=always
-ExecStart=/root/Ether1/build/bin/geth --cache=512 --rpcvhosts="*" --rpc --rpcport "8545" --rpcaddr "127.0.0.1" --rpccorsdomain "*" --nat "any" --rpcapi "eth,web3,personal,net" --syncmode "full" -ethstats "<name>:ether1stats@stats.ether1.org"
-[Install]
-WantedBy=default.target
+    [Unit]
+    Description=Geth for public ETHO RPC
+    After=network-online.target
 
-# Exit nano - save your changes!
+    [Service]
+    ExecStart=/usr/local/bin/geth --cache 1024 --http.vhosts "*" --http --http.port 8545 --http.addr 127.0.0.1 --http.corsdomain "*" --nat "any" --http.api "eth,web3,personal,net,network,debug,txpool" --syncmode "fast" --identity "<name>" --ethstats "<name>:ether1stats@stats.ethoprotocol.com"
+    User=<your-user-name>
 
-systemctl enable ether1node && systemctl start ether1nod
+    [Install]
+    WantedBy=multi-user.target
 
-nano /etc/nginx/sites-enabled/default
+#### Exit nano - save your changes!
 
-# Use CRTL+K to clear out the files contents & replace with the below - Replace RPC_URL_HERE with your rpc url for example: rpc.ether1.org
+#### These are the available systemctl commands - you will want to do the first three commands to get the service up and confirm operation
 
-server {
-server_name RPC_URL_HERE;
+    sudo systemctl enable geth-etho-rpc   <-- enables geth-etho-rpc.service
+    sudo systemctl start geth-etho-rpc    <-- starts geth-etho-rpc.service
+    sudo systemctl status geth-etho-rpc   <-- shows status of geth-etho-rpc.service
+    sudo systemctl stop geth-etho-rpc     <-- stops geth-etho-rpc.service
+    
+    journalctl -f -u geth-etho-rpc        <-- this is similar to systemctl status but gives much more information.  also very useful
 
- location / {
-      proxy_pass http://localhost:8545/;
-      proxy_set_header Host $host;
- }
-}
+#### Setup for nginx
 
-# Exit nano - save your changes!
+    sudo nano /etc/nginx/sites-enabled/default
 
-systemctl restart nginx
-```
+#### Use CRTL+K to clear out the files contents & replace with the below - Replace RPC_URL_HERE with your rpc url for example: rpc.etho-protocol.ca
+
+    server {
+    server_name RPC_URL_HERE;
+
+     location / {
+          proxy_pass http://localhost:8545/;
+          proxy_set_header Host $host;
+     }
+    }
+
+#### Exit nano - save your changes!
+
+    sudo systemctl restart nginx
+
 
 #### Enable SSL
 
-```bash
+    sudo apt install snapd
 
-sudo apt install snapd
+    sudo snap install --classic certbot
 
-sudo snap install --classic certbot
+#### Read instructions from the next command carefully
+    sudo certbot --nginx  
 
-# Read instructions from the next command carefully
-sudo certbot --nginx  
-
-# Test Automatic SSL Cert Renewal
-sudo certbot renew --dry-run
+#### Test Automatic SSL Cert Renewal
+    sudo certbot renew --dry-run
 ```
